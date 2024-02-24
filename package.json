@@ -1,0 +1,70 @@
+{
+	"name": "@persontric/adapter-sqlite",
+	"version": "0.0.0",
+	"type": "module",
+	"description": "SQLite adapter for Persontric",
+	"keywords": [
+		"persontric",
+		"auth",
+		"better-sqlite3",
+		"sqlite",
+		"authentication",
+		"adapter",
+		"sql",
+		"kysely",
+		"drizzle",
+		"libsql",
+		"turso"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/persontric/adapter-sqlite"
+	},
+	"author": "Brian Takita",
+	"license": "Apache-2.0",
+	"types": "index.ts",
+	"exports": {
+		".": "./index.ts",
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"*.md",
+		"*.d.ts",
+		"*.js",
+		"*.json",
+		"driver"
+	],
+	"scripts": {
+		"build": "shx rm -rf ./dist/* && tsc",
+		"auri.build": "pnpm build",
+		"test.better-sqlite3": "tsx test.better-sqlite3/index.ts",
+		"test.bun-sqlite": "bun test.bun-sqlite/index.ts",
+		"test.d1": "tsx test.db1/index.ts",
+		"test.libsql": "tsx test.libsql/index.ts"
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20240222.0",
+		"@libsql/client": "^0.5.1",
+		"@persontric/adapter-test": "workspace:*",
+		"@miniflare/d1": "^2.14.2",
+		"@miniflare/web-sockets": "^2.14.2",
+		"@types/better-sqlite3": "^7.6.9",
+		"better-sqlite3": "^9.4.3",
+		"bun-types": "^1.0.29",
+		"persontric": "workspace:*",
+		"tsx": "^4.7.1"
+	},
+	"peerDependencies": {
+		"@libsql/client": "^0.5.1",
+		"better-sqlite3": "9.4.3",
+		"persontric": "^0.0.0"
+	},
+	"peerDependenciesMeta": {
+		"better-sqlite3": {
+			"optional": true
+		},
+		"@libsql/client": {
+			"optional": true
+		}
+	}
+}
