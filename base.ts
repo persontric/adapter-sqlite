@@ -14,11 +14,11 @@ export class SQLiteAdapter implements Adapter {
 		this.escape_session_tbl_name = name__escape(tableNames.session)
 		this.escape_person_tbl_name = name__escape(tableNames.person)
 	}
-	public async session__delete(sessionId:string):Promise<void> {
+	public async session__delete(session_id:string):Promise<void> {
 		await this.controller.execute(`DELETE
 																	 FROM ${this.escape_session_tbl_name}
 																	 WHERE id = ?`, [
-			sessionId
+			session_id
 		])
 	}
 	public async person_session_all__delete(person_id:string):Promise<void> {
@@ -30,11 +30,11 @@ export class SQLiteAdapter implements Adapter {
 		)
 	}
 	public async session_person_pair_(
-		sessionId:string
+		session_id:string
 	):Promise<[session:DatabaseSession|null, person:DatabasePerson|null]> {
 		const [databaseSession, database_person] = await Promise.all([
-			this.session_(sessionId),
-			this.session_id__person_(sessionId)
+			this.session_(session_id),
+			this.session_id__person_(session_id)
 		])
 		return [databaseSession, database_person]
 	}
@@ -46,14 +46,14 @@ export class SQLiteAdapter implements Adapter {
 			[person_id]
 		)
 		return result.map((val)=>{
-			return transformIntoDatabaseSession(val)
+			return session_schema__database_session_(val)
 		})
 	}
 	public async session__set(database_session:DatabaseSession):Promise<void> {
 		const value:SessionSchema = {
 			id: database_session.id,
 			person_id: database_session.person_id,
-			expire_dts: database_session.expire_dts,
+			expire_dts: database_session.expire_dts.getTime(),
 			...database_session.attributes
 		}
 		const entries = Object.entries(value).filter(([_, v])=>v !== undefined)
@@ -84,26 +84,26 @@ export class SQLiteAdapter implements Adapter {
 			[Date.now()]
 		)
 	}
-	private async session_(sessionId:string):Promise<DatabaseSession|null> {
+	private async session_(session_id:string):Promise<DatabaseSession|null> {
 		const result = await this.controller.get<SessionSchema>(
 			`SELECT *
 			 FROM ${this.escape_session_tbl_name}
 			 WHERE id = ?`,
-			[sessionId]
+			[session_id]
 		)
 		if (!result) return null
-		return transformIntoDatabaseSession(result)
+		return session_schema__database_session_(result)
 	}
-	private async session_id__person_(sessionId:string):Promise<DatabasePerson|null> {
+	private async session_id__person_(session_id:string):Promise<DatabasePerson|null> {
 		const result = await this.controller.get<UserSchema>(
 			`SELECT ${this.escape_person_tbl_name}.*
 			 FROM ${this.escape_session_tbl_name}
 							INNER JOIN ${this.escape_person_tbl_name} ON ${this.escape_person_tbl_name}.id = ${this.escape_session_tbl_name}.person_id
 			 WHERE ${this.escape_session_tbl_name}.id = ?`,
-			[sessionId]
+			[session_id]
 		)
 		if (!result) return null
-		return transformIntoDatabaseUser(result)
+		return user_schema__database_user_(result)
 	}
 }
 export interface TableNames {
@@ -118,21 +118,21 @@ export interface Controller {
 interface SessionSchema extends RegisterDatabaseSessionAttributes {
 	id:string
 	person_id:string
-	expire_dts:Date
+	expire_dts:number
 }
 interface UserSchema extends RegisterDatabasePersonAttributes {
 	id:string
 }
-function transformIntoDatabaseSession(raw:SessionSchema):DatabaseSession {
+function session_schema__database_session_(raw:SessionSchema):DatabaseSession {
 	const { id, person_id, expire_dts, ...attributes } = raw
 	return {
 		person_id,
 		id,
-		expire_dts,
+		expire_dts: new Date(expire_dts),
 		attributes
 	}
 }
-function transformIntoDatabaseUser(raw:UserSchema):DatabasePerson {
+function user_schema__database_user_(raw:UserSchema):DatabasePerson {
 	const { id, ...attributes } = raw
 	return {
 		id,
