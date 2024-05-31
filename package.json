@@ -49,14 +49,14 @@
 		"@miniflare/d1": "^2.14.2",
 		"@miniflare/web-sockets": "^2.14.2",
 		"@types/better-sqlite3": "^7.6.10",
-		"better-sqlite3": "^10.0.0",
+		"better-sqlite3": "^11.0.0",
 		"bun-types": "^1.1.10",
 		"persontric": "workspace:*",
 		"tsx": "^4.11.0"
 	},
 	"peerDependencies": {
 		"@libsql/client": "^0.6.1",
-		"better-sqlite3": "10.0.0",
+		"better-sqlite3": "11.0.0",
 		"persontric": "^0.0.0"
 	},
 	"peerDependenciesMeta": {
