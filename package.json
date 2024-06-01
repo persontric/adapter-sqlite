@@ -50,7 +50,7 @@
 		"@miniflare/web-sockets": "^2.14.2",
 		"@types/better-sqlite3": "^7.6.10",
 		"better-sqlite3": "^11.0.0",
-		"bun-types": "^1.1.10",
+		"bun-types": "^1.1.12",
 		"persontric": "workspace:*",
 		"tsx": "^4.11.0"
 	},
