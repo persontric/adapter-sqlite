@@ -43,7 +43,7 @@
 		"test.libsql": "tsx test.libsql/index.ts"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20240614.0",
+		"@cloudflare/workers-types": "^4.20240620.0",
 		"@libsql/client": "^0.6.2",
 		"@persontric/adapter-test": "workspace:*",
 		"@miniflare/d1": "^2.14.2",
@@ -52,7 +52,7 @@
 		"better-sqlite3": "^11.0.0",
 		"bun-types": "^1.1.15",
 		"persontric": "workspace:*",
-		"tsx": "^4.15.6"
+		"tsx": "^4.15.7"
 	},
 	"peerDependencies": {
 		"@libsql/client": "^0.6.2",
