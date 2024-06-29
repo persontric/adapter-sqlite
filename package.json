@@ -52,7 +52,7 @@
 		"better-sqlite3": "^11.1.1",
 		"bun-types": "^1.1.17",
 		"persontric": "workspace:*",
-		"tsx": "^4.15.7"
+		"tsx": "^4.15.9"
 	},
 	"peerDependencies": {
 		"@libsql/client": "^0.7.0",
